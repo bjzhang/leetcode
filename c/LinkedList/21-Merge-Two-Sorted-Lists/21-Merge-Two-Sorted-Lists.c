@@ -7,25 +7,6 @@ struct ListNode {
     struct ListNode *next;
 };
 
-struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
-    struct ListNode* output;
-    struct ListNode** outputReturn = &output;
-    struct ListNode* node;
-
-    while(l1!=NULL && l2!=NULL) {
-        output = (struct ListNode*)malloc(sizeof(struct ListNode));
-        if(l1->val > l2->val) {
-            output->val = l2->val;
-            l2=l2->next;
-        } else {
-            output->val = l1->val;
-            l1=l1->next;
-        }
-        output = output->next;
-    }
-    return *outputReturn;
-}
-
 struct ListNode *init(int *nums, int len)
 {
     struct ListNode *node;
@@ -57,10 +38,55 @@ void printList(struct ListNode *list)
     }
 }
 
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
+    struct ListNode* node;
+    struct ListNode* head = NULL;
+
+    node = (struct ListNode*)malloc(sizeof(struct ListNode));
+    head = node;
+    printf("mergeTwoLists:\n");
+    while(l1!=NULL && l2!=NULL) {
+        if(l1->val > l2->val) {
+            node->val = l2->val;
+            l2=l2->next;
+        } else {
+            node->val = l1->val;
+            l1=l1->next;
+        }
+        if(l1!=NULL || l2 != NULL) { 
+            node->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+            node = node->next;
+        }
+    }
+    while(l1!=NULL) {
+        node->val = l1->val;
+        l1=l1->next;
+        if(l1 != NULL) {
+            node->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+            node = node->next;
+        }
+    }
+    while(l2!=NULL) {
+        node->val = l2->val;
+        l2=l2->next;
+         if(l2 != NULL) {
+            node->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+            node = node->next;
+        }
+    }
+    return head;
+}
+
 int main(int argc, char *argv[])
 {
-    int l1Array[] = {1,2,3};
+    int l1Array[] = {1,2,4};
+    int l2Array[] = {1,3,4};
     struct ListNode *l1 = init(l1Array, sizeof(l1Array)/sizeof(l1Array[0]));
+    struct ListNode *l2 = init(l2Array, sizeof(l2Array)/sizeof(l2Array[0]));
     printList(l1);
+    printList(l2);
+    printList(mergeTwoLists(l1, l2));
+
+    return 0;
 }
 
