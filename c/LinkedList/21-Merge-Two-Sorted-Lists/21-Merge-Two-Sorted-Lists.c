@@ -29,19 +29,22 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
 struct ListNode *init(int *nums, int len)
 {
     struct ListNode *node;
-    struct ListNode **head = &node;
+    struct ListNode *head;
     struct ListNode *prev = NULL;
 
     int i;
     for(i = 0; i < len; i++) {
         node = (struct ListNode*)malloc(sizeof(struct ListNode));
+	if (prev == NULL) { 
+		head = node;
+	}
         if (prev != NULL) {
             prev->next = node;
         }
         node->val = nums[i];
         prev = node;
     }
-    return *head;
+    return head;
 }
 
 void printList(struct ListNode *list)
