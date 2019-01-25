@@ -39,42 +39,38 @@ void printList(struct ListNode *list)
 }
 
 struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
-    struct ListNode* node;
-    struct ListNode* head = NULL;
+    struct ListNode* l1Orig = l1;
+    struct ListNode* cur = NULL;
+    struct ListNode* temp;
 
-    node = (struct ListNode*)malloc(sizeof(struct ListNode));
-    head = node;
     printf("mergeTwoLists:\n");
-    while(l1!=NULL && l2!=NULL) {
+    while(l1 != NULL && l2 != NULL) {
         if(l1->val > l2->val) {
-            node->val = l2->val;
-            l2=l2->next;
+            if(cur==NULL) {
+                cur = l2;
+                l2 = l2->next;
+            } else {
+                temp = cur->next;
+                cur->next=l2;
+                l2 = l2->next;
+                cur = cur->next;
+            }
         } else {
-            node->val = l1->val;
-            l1=l1->next;
-        }
-        if(l1!=NULL || l2 != NULL) { 
-            node->next = (struct ListNode*)malloc(sizeof(struct ListNode));
-            node = node->next;
-        }
-    }
-    while(l1!=NULL) {
-        node->val = l1->val;
-        l1=l1->next;
-        if(l1 != NULL) {
-            node->next = (struct ListNode*)malloc(sizeof(struct ListNode));
-            node = node->next;
+            if(cur==NULL) {
+                cur = l1;
+                l1 = l1->next;
+            } else {
+                temp = cur->next;
+                cur->next=l1;
+                l1 = l1->next;
+                cur = cur->next;
+            }
         }
     }
-    while(l2!=NULL) {
-        node->val = l2->val;
-        l2=l2->next;
-         if(l2 != NULL) {
-            node->next = (struct ListNode*)malloc(sizeof(struct ListNode));
-            node = node->next;
-        }
+    if (l2 != NULL)  {
+        cur->next = l2;
     }
-    return head;
+    return l1Orig;
 }
 
 int main(int argc, char *argv[])
