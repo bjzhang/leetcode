@@ -67,6 +67,9 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
             }
         }
     }
+    if (l1 != NULL)  {
+        cur->next = l1;
+    }
     if (l2 != NULL)  {
         cur->next = l2;
     }
