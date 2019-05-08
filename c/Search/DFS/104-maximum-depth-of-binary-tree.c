@@ -38,12 +38,10 @@ void maxDepthCur(struct TreeNode *root)
 		maxDepthCur(root->right);
 	}
 	if (root->left && root->right)
-		root->val = root->left->val > root->right->val ? root->left->val : root->right->val + 1;
-
-	if (root->left)
+		root->val = ((root->left->val > root->right->val) ? root->left->val : root->right->val) + 1;
+	else if (root->left)
 		root->val = root->left->val + 1;
-
-	if (root->right)
+	else if (root->right)
 		root->val = root->right->val + 1;
 }
 
@@ -83,19 +81,20 @@ int main(int argc, char *argv[])
 	root = (struct TreeNode*)malloc(sizeof(struct TreeNode));
 	memset(root, 0, sizeof(struct TreeNode));
 	origin = root;
-	root->val = 3;
+	root->val = 1;
 	root->left = (struct TreeNode*)malloc(sizeof(struct TreeNode));
 	memset(root->left, 0, sizeof(struct TreeNode));
 	root->right = (struct TreeNode*)malloc(sizeof(struct TreeNode));
 	memset(root->right, 0, sizeof(struct TreeNode));
-	root->left->val = 9;
-	root->right->val = 20;
-	root->right->left = (struct TreeNode*)malloc(sizeof(struct TreeNode));
-	memset(root->right->left, 0, sizeof(struct TreeNode));
-	root->right->right = (struct TreeNode*)malloc(sizeof(struct TreeNode));
-	memset(root->right->right, 0, sizeof(struct TreeNode));
-	root->right->left->val = 15;
-	root->right->right->val = 7;
+	root->left->val = 2;
+	root->right->val = 3;
+	root->left->left = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+	memset(root->left->left, 0, sizeof(struct TreeNode));
+	root->left->right = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+	memset(root->left->right, 0, sizeof(struct TreeNode));
+	root->left->left->val = 4;
+	root->left->right->val = 5;
 
 	maxDepth(root);
+	visitTree(root);
 }
